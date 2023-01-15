@@ -1,7 +1,11 @@
-﻿namespace zlobek.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace zlobek.Entities
 {
-    public class ChildModel
+    public class Child
     {
+        [Key]
         public int ChildID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -17,5 +21,8 @@
         public string BirthDate { get; set; }
         public string Allergies { get; set; }
         public string OtherInformations { get; set; }
+       
+        public int GroupId { get; set; }
+        public virtual Groups Groups { get; set; }
     }
 }
