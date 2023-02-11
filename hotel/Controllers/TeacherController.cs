@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using zlobek.Entities;
 
@@ -11,39 +10,39 @@ namespace zlobek.Controllers
     [ApiController]
     public class TeacherController : ControllerBase
     {
-        private readonly nurseryDbContext _context;
+        private readonly ITeacherService _teacherService;
 
-        public TeacherController(nurseryDbContext context)
+        public TeacherController(ITeacherService teacherService)
         {
-            _context = context;
+            _teacherService = teacherService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers()
         {
-            return await _context.Teacher.ToListAsync();
+            var teachers = await _teacherService.GetTeachers();
+            return Ok(teachers);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Teacher>> GetTeacher(int id)
         {
-            var teacher = await _context.Teacher.FindAsync(id);
+            var teacher = await _teacherService.GetTeacherById(id);
 
             if (teacher == null)
             {
                 return NotFound();
             }
 
-            return teacher;
+            return Ok(teacher);
         }
 
         [HttpPost]
         public async Task<ActionResult<Teacher>> PostTeacher(Teacher teacher)
         {
-            _context.Teacher.Add(teacher);
-            await _context.SaveChangesAsync();
+            var createdTeacher = await _teacherService.CreateTeacher(teacher);
 
-            return CreatedAtAction(nameof(GetTeacher), new { id = teacher.TeacherID }, teacher);
+            return CreatedAtAction(nameof(GetTeacher), new { id = createdTeacher.TeacherID }, createdTeacher);
         }
 
         [HttpPut("{id}")]
@@ -54,23 +53,10 @@ namespace zlobek.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(teacher).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeacherExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+                await _teacherService.UpdateTeacher(id, teacher);
+            
+           
 
             return NoContent();
         }
@@ -78,21 +64,14 @@ namespace zlobek.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
-            var teacher = await _context.Teacher.FindAsync(id);
-            if (teacher == null)
+            var deleted = await _teacherService.DeleteTeacher(id);
+
+            if (!deleted)
             {
                 return NotFound();
             }
 
-            _context.Teacher.Remove(teacher);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool TeacherExists(int id)
-        {
-            return _context.Teacher.Any(e => e.TeacherID == id);
         }
     }
 }

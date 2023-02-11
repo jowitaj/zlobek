@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using zlobek.Entities;
 
@@ -11,97 +10,67 @@ namespace zlobek.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly nurseryDbContext _context;
+        private readonly IAccountService _accountService;
 
-        public AccountController(nurseryDbContext context)
+        public AccountController(IAccountService accountService)
         {
-            _context = context;
+            _accountService = accountService;
         }
 
-        // GET: api/Data
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            return await _context.Accounts.ToListAsync();
+            var accounts = await _accountService.GetAllAccounts();
+            return Ok(accounts);
         }
 
-        // GET: api/Data/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            var account = await _accountService.GetAccountById(id);
 
             if (account == null)
             {
                 return NotFound();
             }
 
-            return account;
+            return Ok(account);
         }
 
-        // POST: api/Data
         [HttpPost]
         public async Task<ActionResult<Account>> PostAccount(Account account)
         {
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
+            var createdAccount = await _accountService.CreateAccount(account);
+            return CreatedAtAction(nameof(GetAccount), new { id = createdAccount.AccountId }, createdAccount);
         }
 
-        // PUT: api/Data/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAccount(int id, Account account)
         {
-            if (id != account.AccountId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(account).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var updatedAccount = await _accountService.UpdateAccount(id, account);
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArgumentException ex)
             {
-                if (!AccountExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ex.Message);
             }
-
-            return NoContent();
         }
 
-        // DELETE: api/Data/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
+            try
             {
-                return NotFound();
+                await _accountService.DeleteAccount(id);
+                return NoContent();
             }
-
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        // Helper method
-        private bool AccountExists(int id)
-        {
-            return _context.Accounts.Any(e => e.AccountId == id);
-        }
-
-        // Similarly for other entities: Child, Group, Menu, Teacher
-        // ...
     }
 }

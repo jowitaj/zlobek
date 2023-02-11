@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using zlobek.Entities;
+using zlobek.Services;
 
 namespace zlobek.Controllers
 {
@@ -11,88 +12,67 @@ namespace zlobek.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private readonly nurseryDbContext _context;
+        private readonly IMenuService _menuService;
 
-        public MenuController(nurseryDbContext context)
+        public MenuController(IMenuService menuService)
         {
-            _context = context;
+            _menuService = menuService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Menu>>> Get()
+        public async Task<ActionResult<IEnumerable<Menu>>> GetMenus()
         {
-            return await _context.Menu.ToListAsync();
+            var menus = await _menuService.GetMenus();
+            return Ok(menus);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Menu>> Get(int id)
+        public async Task<ActionResult<Menu>> GetMenu(int id)
         {
-            var menu = await _context.Menu.FindAsync(id);
+            var menu = await _menuService.GetMenuById(id);
 
             if (menu == null)
             {
                 return NotFound();
             }
 
-            return menu;
+            return Ok(menu);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Menu>> Post(Menu menu)
+        public async Task<ActionResult<Menu>> PostMenu(Menu menu)
         {
-            _context.Menu.Add(menu);
-            await _context.SaveChangesAsync();
+            await _menuService.CreateMenu(menu);
 
-            return CreatedAtAction(nameof(Get), new { id = menu.MenuId }, menu);
+            return CreatedAtAction(nameof(GetMenu), new { id = menu.MenuId }, menu);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Menu menu)
+        public async Task<IActionResult> PutMenu(int id, Menu menu)
         {
-            if (id != menu.MenuId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(menu).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _menuService.UpdateMenu(id, menu);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArgumentException)
             {
-                if (!MenuExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteMenu(int id)
         {
-            var menu = await _context.Menu.FindAsync(id);
-            if (menu == null)
+            var result = await _menuService.DeleteMenu(id);
+
+            if (!result)
             {
                 return NotFound();
             }
 
-            _context.Menu.Remove(menu);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool MenuExists(int id)
-        {
-            return _context.Menu.Any(e => e.MenuId == id);
         }
     }
 }

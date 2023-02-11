@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using zlobek.Entities;
+using zlobek.Services;
 
 namespace zlobek.Controllers
 {
@@ -11,23 +10,26 @@ namespace zlobek.Controllers
     [ApiController]
     public class ChildController : ControllerBase
     {
-        private readonly nurseryDbContext _context;
+        private readonly IChildService _childService;
 
-        public ChildController(nurseryDbContext context)
+        public ChildController(IChildService childService)
         {
-            _context = context;
+            _childService = childService;
         }
 
+        // GET: api/Child
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Child>>> Get()
         {
-            return await _context.Child.ToListAsync();
+            var children = await _childService.GetChildren();
+            return Ok(children);
         }
 
+        // GET: api/Child/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Child>> Get(int id)
         {
-            var child = await _context.Child.FindAsync(id);
+            var child = await _childService.GetChild(id);
 
             if (child == null)
             {
@@ -37,15 +39,20 @@ namespace zlobek.Controllers
             return child;
         }
 
+        // POST: api/Child
         [HttpPost]
         public async Task<ActionResult<Child>> Post(Child child)
         {
-            _context.Child.Add(child);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction(nameof(Get), new { id = child.ChildID }, child);
+            var createdChild = await _childService.CreateChild(child);
+            return CreatedAtAction(nameof(Get), new { id = createdChild.ChildID }, createdChild);
         }
 
+        // PUT: api/Child/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Child child)
         {
@@ -54,45 +61,33 @@ namespace zlobek.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(child).State = EntityState.Modified;
-
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ChildExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return NoContent();
-        }
+            var result = await _childService.UpdateChild(id, child);
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var child = await _context.Child.FindAsync(id);
-            if (child == null)
+            if (!result)
             {
                 return NotFound();
             }
 
-            _context.Child.Remove(child);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool ChildExists(int id)
+        // DELETE: api/Child/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            return _context.Child.Any(e => e.ChildID == id);
+            var result = await _childService.DeleteChild(id);
+
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

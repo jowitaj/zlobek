@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using zlobek.Entities;
+using zlobek.Services;
 
 namespace zlobek.Controllers
 {
@@ -12,88 +11,81 @@ namespace zlobek.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
-        private readonly nurseryDbContext _context;
+        private readonly IGroupService _groupService;
 
-        public GroupController(nurseryDbContext context)
+        public GroupController(IGroupService groupService)
         {
-            _context = context;
+            _groupService = groupService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Groups>>> Get()
+        public async Task<ActionResult<IEnumerable<Groups>>> GetGroups()
         {
-            return await _context.Groups.ToListAsync();
+            return Ok(await _groupService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Groups>> Get(int id)
+        public async Task<ActionResult<Groups>> GetGroup(int id)
         {
-            var group = await _context.Groups.FindAsync(id);
+            var group = await _groupService.GetByIdAsync(id);
 
             if (group == null)
             {
                 return NotFound();
             }
 
-            return group;
+            return Ok(group);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Groups>> Post(Groups group)
+        public async Task<ActionResult<Groups>> PostGroup(Groups group)
         {
-            _context.Groups.Add(group);
-            await _context.SaveChangesAsync();
+            if (!IsValidGroupName(group.Name))
+            {
+                return BadRequest("Invalid group name. Only alphanumeric characters and spaces are allowed.");
+            }
 
-            return CreatedAtAction(nameof(Get), new { id = group.GroupId }, group);
+            var createdGroup = await _groupService.CreateAsync(group);
+
+            return CreatedAtAction(nameof(GetGroup), new { id = createdGroup.GroupId }, createdGroup);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Groups group)
+        public async Task<IActionResult> PutGroup(int id, Groups group)
         {
             if (id != group.GroupId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(group).State = EntityState.Modified;
+            if (!IsValidGroupName(group.Name))
+            {
+                return BadRequest("Invalid group name. Only alphanumeric characters and spaces are allowed.");
+            }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _groupService.UpdateAsync(group);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteGroup(int id)
         {
-            var group = await _context.Groups.FindAsync(id);
+            var group = await _groupService.GetByIdAsync(id);
+
             if (group == null)
             {
                 return NotFound();
             }
 
-            _context.Groups.Remove(group);
-            await _context.SaveChangesAsync();
+            await _groupService.DeleteAsync(id);
 
             return NoContent();
         }
 
-        private bool GroupExists(int id)
+        private bool IsValidGroupName(string name)
         {
-            return _context.Groups.Any(e => e.GroupId == id);
+            return Regex.IsMatch(name, @"^[a-zA-Z0-9\s]+$");
         }
     }
 }
