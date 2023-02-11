@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace hotel.Controllers
+namespace zlobek.Controllers
 {
     public class HomeController : Controller
     {

@@ -9,6 +9,8 @@ namespace zlobek.Entities
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Child> Child { get; set; }
+        public DbSet<Groups> Groups { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
