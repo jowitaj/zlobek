@@ -1,0 +1,47 @@
+﻿@model IEnumerable<zlobek.Entities.Child>
+
+<table>
+    <thead>
+        <tr>
+            <th>Child ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Mother Name</th>
+            <th>Mother Surname</th>
+            <th>Father Name</th>
+            <th>Father Surname</th>
+            <th>Contact Number</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>House Number</th>
+            <th>Postal Code</th>
+            <th>Birth Date</th>
+            <th>Allergies</th>
+            <th>Other Information</th>
+            <th>Group ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var child in Model)
+        {
+            <tr>
+                <td>@child.ChildID</td>
+                <td>@child.Name</td>
+                <td>@child.Surname</td>
+                <td>@child.MotherName</td>
+                <td>@child.MotherSurname</td>
+                <td>@child.FatherName</td>
+                <td>@child.FatherSurname</td>
+                <td>@child.ContactNumber</td>
+                <td>@child.City</td>
+                <td>@child.Street</td>
+                <td>@child.HouseNumber</td>
+                <td>@child.PostalCode</td>
+                <td>@child.BirthDate</td>
+                <td>@child.Allergies</td>
+                <td>@child.OtherInformations</td>
+                <td>@child.GroupId</td>
+            </tr>
+        }
+    </tbody>
+</table>

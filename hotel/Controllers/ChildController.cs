@@ -23,8 +23,8 @@ namespace zlobek.Controllers
             _logger = logger;
         }
 
-
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> ChildList()
         {
             var children = await _childService.GetChildren();
             return View(children);
@@ -69,19 +69,19 @@ namespace zlobek.Controllers
             return View(child);
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet]
+        public IActionResult Delete()
         {
-            var result = await _childService.DeleteChild(id);
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Child child)
+        {
 
-            if (!result)
-            {
-                return NotFound();
-            }
+            child.ChildID = int.Parse(Request.Form["ChildId"]);
+            var result = await _childService.DeleteChild(child.ChildID);
 
-            return RedirectToAction(nameof(Index));
+           return View();
         }
     }
 }
