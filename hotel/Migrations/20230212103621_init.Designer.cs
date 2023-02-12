@@ -10,7 +10,7 @@ using zlobek.Entities;
 namespace zlobek.Migrations
 {
     [DbContext(typeof(nurseryDbContext))]
-    [Migration("20230115141211_init")]
+    [Migration("20230212103621_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

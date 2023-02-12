@@ -1,0 +1,69 @@
+﻿@model zlobek.Entities.Child
+
+<h2>Create Child</h2>
+<form asp-action="/Child/Create" asp-controller="Child" method="post">
+    <div class="form-group">
+        <label for="Name" class="control-label">Name:</label>
+        <input type="text" name="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Surname" class="control-label">Surname:</label>
+        <input type="text" name="Surname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="MotherName" class="control-label">MotherName:</label>
+        <input type="text" name="MotherName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="MotherSurname" class="control-label">MotherSurname:</label>
+        <input type="text" name="MotherSurname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FatherName" class="control-label">FatherNam:</label>
+        <input type="text" name="FatherName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FatherSurname" class="control-label">FatherSurname:</label>
+        <input type="text" name="FatherSurname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="ContactNumber" class="control-label">ContactNumber:</label>
+        <input type="text" name="ContactNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="City" class="control-label">City:</label>
+        <input type="text" name="City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Street" class="control-label">Street:</label>
+        <input type="text" name="Street" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="HouseNumber" class="control-label">HouseNumber:</label>
+        <input type="text" name="HouseNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="PostalCode" class="control-label">PostalCode:</label>
+        <input type="text" name="PostalCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="BirthDate" class="control-label">Birth Date:</label>
+        <input type="date" name="BirthDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Allergies" class="control-label">Allergies:</label>
+        <input type="text" name="Allergies" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="OtherInformations" class="control-label">Other Informations:</label>
+        <input type="text" name="OtherInformations" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="GroupId" class="control-label">Group:</label>
+        <select name="GroupId" class="form-control">
+            <option value="1">Group 1</option>
+            </select>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+</form>

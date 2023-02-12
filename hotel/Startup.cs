@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using zlobek.Entities;
+using zlobek.Services;
 
 namespace hotel
 {
@@ -23,7 +25,17 @@ namespace hotel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+
+            services.AddDbContext<nurseryDbContext>();
             services.AddRazorPages();
+            services.AddScoped<IChildService, ChildService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IGroupService, GroupService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +61,9 @@ namespace hotel
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+           name: "default",
+           pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

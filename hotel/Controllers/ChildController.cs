@@ -1,33 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using zlobek.Entities;
 using zlobek.Services;
 
 namespace zlobek.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ChildController : ControllerBase
+    public class ChildController : Controller
     {
         private readonly IChildService _childService;
 
-        public ChildController(IChildService childService)
+    
+        private readonly ILogger<ChildController> _logger;
+
+        public ChildController(IChildService childService, ILogger<ChildController> logger)
         {
             _childService = childService;
+            _logger = logger;
         }
 
-        // GET: api/Child
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Child>>> Get()
+
+        public async Task<IActionResult> Index()
         {
             var children = await _childService.GetChildren();
-            return Ok(children);
+            return View(children);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
         }
 
-        // GET: api/Child/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Child>> Get(int id)
+        [HttpPost]
+        public async Task<IActionResult> Create(Child child)
+        {
+      
+                await _childService.CreateChild(child);
+            
+            return Ok();
+           
+         
+
+
+
+        }
+
+        public async Task<IActionResult> Edit(int id)
         {
             var child = await _childService.GetChild(id);
 
@@ -36,34 +58,21 @@ namespace zlobek.Controllers
                 return NotFound();
             }
 
-            return child;
+            return View(child);
         }
 
-        // POST: api/Child
         [HttpPost]
-        public async Task<ActionResult<Child>> Post(Child child)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var createdChild = await _childService.CreateChild(child);
-            return CreatedAtAction(nameof(Get), new { id = createdChild.ChildID }, createdChild);
-        }
-
-        // PUT: api/Child/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Child child)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Child child)
         {
             if (id != child.ChildID)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(child);
             }
 
             var result = await _childService.UpdateChild(id, child);
@@ -73,11 +82,11 @@ namespace zlobek.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return RedirectToAction(nameof(Index));
         }
 
-        // DELETE: api/Child/5
-        [HttpDelete("{id}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _childService.DeleteChild(id);
@@ -87,7 +96,7 @@ namespace zlobek.Controllers
                 return NotFound();
             }
 
-            return NoContent();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +12,12 @@ namespace zlobek.Services
     public class ChildService : IChildService
     {
         private readonly nurseryDbContext _context;
-
-        public ChildService(nurseryDbContext context)
+        private readonly ILogger<ChildService> _logger;
+        [ActivatorUtilitiesConstructor]
+        public ChildService(nurseryDbContext context, ILogger<ChildService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Child>> GetChildren()
@@ -34,10 +39,18 @@ namespace zlobek.Services
 
         public async Task<Child> CreateChild(Child child)
         {
-            _context.Child.Add(child);
-            await _context.SaveChangesAsync();
-
-            return child;
+            try
+            {
+                _context.Child.Add(child);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Child created: {0}", child.ToString());
+                return child;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating child");
+                throw;
+            }
         }
 
         public async Task<bool> UpdateChild(int id, Child child)

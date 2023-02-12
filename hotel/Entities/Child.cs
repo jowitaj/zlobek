@@ -22,7 +22,7 @@ namespace zlobek.Entities
         public string Allergies { get; set; }
         public string OtherInformations { get; set; }
        
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public virtual Groups Groups { get; set; }
     }
 }
