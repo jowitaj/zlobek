@@ -38,52 +38,37 @@ namespace zlobek.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Child child)
         {
-      
+            if (ModelState.IsValid)
+            {
                 await _childService.CreateChild(child);
-            
-            return Ok();
-           
-         
+
+                return View(child);
+            }
+            return BadRequest();
 
 
 
         }
 
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet]
+        public IActionResult Edit()
         {
-            var child = await _childService.GetChild(id);
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Edit(Child child)
+        {
+           
+                child.ChildID = int.Parse(Request.Form["ChildId"]);
+            
+            var result = await _childService.UpdateChild(child.ChildID, child);
 
-            if (child == null)
-            {
-                return NotFound();
-            }
+            
 
             return View(child);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Child child)
-        {
-            if (id != child.ChildID)
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(child);
-            }
-
-            var result = await _childService.UpdateChild(id, child);
-
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
