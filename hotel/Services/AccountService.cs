@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,7 +17,21 @@ namespace zlobek.Services
         {
             _context = context;
         }
+        public async Task<Account> Login(string email, string password)
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
 
+            if (account == null)
+            {
+                return null;
+            }
+
+            var passwordHasher = new PasswordHasher<Account>();
+
+            var result = passwordHasher.VerifyHashedPassword(account, account.Password, password);
+
+            return result == PasswordVerificationResult.Success ? account : null;
+        }
         public async Task<IEnumerable<Account>> GetAccount()
         {
             return await _context.Accounts.ToListAsync();

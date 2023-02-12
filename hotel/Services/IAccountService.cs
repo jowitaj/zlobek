@@ -6,6 +6,7 @@ namespace zlobek.Services
 {
     public interface IAccountService
     {
+        Task<Account> Login(string email, string password);
         Task<IEnumerable<Account>> GetAccount();
         Task<Account> GetAccount(int id);
         Task<Account> CreateAccount(Account account);

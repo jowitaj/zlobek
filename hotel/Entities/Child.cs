@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace zlobek.Entities
 {
@@ -7,7 +9,6 @@ namespace zlobek.Entities
     {
         [Key]
         public int ChildID { get; set; }
-
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(50, ErrorMessage = "Name can not be longer than 50 characters.")]
         public string Name { get; set; }

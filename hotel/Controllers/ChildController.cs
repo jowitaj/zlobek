@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -22,19 +24,20 @@ namespace zlobek.Controllers
             _childService = childService;
             _logger = logger;
         }
-
+        [Authorize(Roles = "admin,teacher")]
         [HttpGet]
         public async Task<IActionResult> ChildList()
         {
             var children = await _childService.GetChildren();
             return View(children);
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Child child)
         {
@@ -49,13 +52,13 @@ namespace zlobek.Controllers
 
 
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-        
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Child child)
         {
@@ -68,12 +71,13 @@ namespace zlobek.Controllers
 
             return View(child);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(Child child)
         {

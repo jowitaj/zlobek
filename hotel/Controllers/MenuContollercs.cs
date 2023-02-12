@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,19 +22,20 @@ namespace zlobek.Controllers
             _menuService = menuService;
 
         }
-
+        [Authorize(Roles = "admin,teacher,parent")]
         [HttpGet]
         public async Task<IActionResult> MenuList()
         {
             var menu = await _menuService.GetMenu();
             return View(menu);
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Menu menu)
         {
@@ -47,13 +50,13 @@ namespace zlobek.Controllers
 
 
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Menu menu)
         {
@@ -66,12 +69,13 @@ namespace zlobek.Controllers
 
             return View(menu);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(Menu menu)
         {

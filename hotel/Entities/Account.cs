@@ -28,6 +28,6 @@ namespace zlobek.Entities
         public int PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Role ID is required")]
-        public int RoleId { get; set; }
+        public string Role { get; set; }
     }
 }

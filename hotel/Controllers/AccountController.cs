@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,19 +22,40 @@ namespace zlobek.Controllers
             _accountService = accountService;
 
         }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Login(Account model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountService.Login(model.Email, model.Password);
+
+                
+                    return RedirectToAction("Index", "Home");
+               
+            }
+
+            return View(model);
+        }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> AccountList()
         {
             var account = await _accountService.GetAccount();
             return View(account);
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Account account)
         {
@@ -47,13 +70,13 @@ namespace zlobek.Controllers
 
 
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Account account)
         {
@@ -66,12 +89,13 @@ namespace zlobek.Controllers
 
             return View(account);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(Account account)
         {
