@@ -1,79 +1,100 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
-using zlobek.Entities;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using zlobek.Entities;
 
-public class AccountService : IAccountService
+namespace zlobek.Services
 {
-    private readonly nurseryDbContext _context;
-
-    public AccountService(nurseryDbContext context)
+    public class AccountService : IAccountService
     {
-        _context = context;
-    }
-
-    public async Task<IEnumerable<Account>> GetAllAccounts()
-    {
-        return await _context.Accounts.ToListAsync();
-    }
-
-    public async Task<Account> GetAccountById(int id)
-    {
-        return await _context.Accounts.FindAsync(id);
-    }
-
-    public async Task<Account> CreateAccount(Account account)
-    {
-        _context.Accounts.Add(account);
-        await _context.SaveChangesAsync();
-
-        return account;
-    }
-
-    public async Task<Account> UpdateAccount(int id, Account account)
-    {
-        if (id != account.AccountId)
+        private readonly nurseryDbContext _context;
+        public AccountService(nurseryDbContext context)
         {
-            throw new ArgumentException("Invalid account ID.");
+            _context = context;
         }
 
-        _context.Entry(account).State = EntityState.Modified;
-
-        try
+        public async Task<IEnumerable<Account>> GetAccount()
         {
-            await _context.SaveChangesAsync();
+            return await _context.Accounts.ToListAsync();
         }
-        catch (DbUpdateConcurrencyException)
+
+        public async Task<Account> GetAccount(int id)
         {
-            if (!AccountExists(id))
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null)
             {
-                throw new ArgumentException("Account not found.");
+                return null;
             }
-            else
+
+            return account;
+        }
+
+        public async Task<Account> CreateAccount(Account account)
+        {
+            try
             {
+                _context.Accounts.Add(account);
+                await _context.SaveChangesAsync();
+
+                return account;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
 
-        return account;
-    }
-
-    public async Task DeleteAccount(int id)
-    {
-        var account = await _context.Accounts.FindAsync(id);
-        if (account == null)
+        public async Task<bool> UpdateAccount(int id, Account account)
         {
-            throw new ArgumentException("Account not found.");
+            if (id != account.AccountId)
+            {
+                return false;
+            }
+
+            _context.Entry(account).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AccountExists(id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
         }
 
-        _context.Accounts.Remove(account);
-        await _context.SaveChangesAsync();
-    }
+        public async Task<bool> DeleteAccount(int id)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+            if (account == null)
+            {
+                return false;
+            }
 
-    private bool AccountExists(int id)
-    {
-        return _context.Accounts.Any(e => e.AccountId == id);
+            _context.Accounts.Remove(account);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private bool AccountExists(int id)
+        {
+            return _context.Groups.Any(e => e.GroupId == id);
+        }
     }
 }

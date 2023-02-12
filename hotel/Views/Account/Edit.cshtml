@@ -1,0 +1,37 @@
+﻿@model zlobek.Entities.Account
+
+<h2>Edit Account</h2>
+<form asp-action="/Account/Edit" asp-controller="Account" method="post">
+<div class="form-group">
+    <label for="AccountId" class="control-label">Account ID:</label>
+    <input type="text" name="AccountId" class="form-control" />
+    <input type="hidden" name="AccountId" value="@ViewData["AccountId"]" />
+</div>
+     <div class="form-group">
+        <label for="Name" class="control-label">Name:</label>
+        <input type="text" name="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Surname" class="control-label">Surname:</label>
+        <input type="text" name="Surname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Password" class="control-label">Password:</label>
+        <input type="password" name="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Email" class="control-label">Email:</label>
+        <input type="email" name="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="PhoneNumber" class="control-label">Phone Number:</label>
+        <input type="text" name="PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="RoleId" class="control-label">Role ID:</label>
+        <input type="text" name="RoleId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

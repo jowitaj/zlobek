@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using zlobek.Entities;
 
-public interface IAccountService
+namespace zlobek.Services
 {
-    Task<IEnumerable<Account>> GetAllAccounts();
-    Task<Account> GetAccountById(int id);
-    Task<Account> CreateAccount(Account account);
-    Task<Account> UpdateAccount(int id, Account account);
-    Task DeleteAccount(int id);
+    public interface IAccountService
+    {
+        Task<IEnumerable<Account>> GetAccount();
+        Task<Account> GetAccount(int id);
+        Task<Account> CreateAccount(Account account);
+        Task<bool> UpdateAccount(int id, Account account);
+        Task<bool> DeleteAccount(int id);
+    }
 }

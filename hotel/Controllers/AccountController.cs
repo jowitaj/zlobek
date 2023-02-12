@@ -1,76 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using zlobek.Entities;
+using zlobek.Services;
 
 namespace zlobek.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+
 
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
+
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        public async Task<IActionResult> AccountList()
         {
-            var accounts = await _accountService.GetAllAccounts();
-            return Ok(accounts);
+            var account = await _accountService.GetAccount();
+            return View(account);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
+        [HttpGet]
+        public IActionResult Create()
         {
-            var account = await _accountService.GetAccountById(id);
-
-            if (account == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(account);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccount(Account account)
+        public async Task<IActionResult> Create(Account account)
         {
-            var createdAccount = await _accountService.CreateAccount(account);
-            return CreatedAtAction(nameof(GetAccount), new { id = createdAccount.AccountId }, createdAccount);
+            if (ModelState.IsValid)
+            {
+                await _accountService.CreateAccount(account);
+
+                return View(account);
+            }
+            return BadRequest();
+
+
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
+        [HttpGet]
+        public IActionResult Edit()
         {
-            try
-            {
-                var updatedAccount = await _accountService.UpdateAccount(id, account);
-                return NoContent();
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return View();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Account account)
         {
-            try
-            {
-                await _accountService.DeleteAccount(id);
-                return NoContent();
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
+
+            account.AccountId = int.Parse(Request.Form["AccountId"]);
+
+            var result = await _accountService.UpdateAccount(account.AccountId, account);
+
+
+
+            return View(account);
         }
 
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Account account)
+        {
+
+            account.AccountId = int.Parse(Request.Form["AccountId"]);
+            var result = await _accountService.DeleteAccount(account.AccountId);
+
+            return View();
+        }
     }
 }
