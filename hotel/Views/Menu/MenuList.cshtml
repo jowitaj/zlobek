@@ -1,0 +1,22 @@
+﻿@model IEnumerable<zlobek.Entities.Menu>
+
+<h2>Menu List</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Dinner Date</th>
+            <th>Dish Type</th>
+            <th>Allergens</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DinnerDate.ToShortDateString()</td>
+                <td>@item.DishType</td>
+                <td>@item.Allergens</td>
+            </tr>
+        }
+    </tbody>
+</table>

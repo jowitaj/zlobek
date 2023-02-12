@@ -1,0 +1,26 @@
+﻿@model zlobek.Entities.Menu
+
+<h2>Create Menu</h2>
+<form asp-action="/Menu/Edit" asp-controller="Menu" method="post">
+<div class="form-group">
+    <label for="MenuId" class="control-label">Menu ID:</label>
+    <input type="text" name="MenuId" class="form-control" />
+    <input type="hidden" name="MenuId" value="@ViewData["MenuId"]" />
+</div>
+ <div class="form-group">
+        <label for="DinnerDate" class="control-label">Dinner Date:</label>
+        <input type="date" name="DinnerDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="DishType" class="control-label">Dish Type:</label>
+        <input type="text" name="DishType" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Allergens" class="control-label">Allergens:</label>
+        <input type="text" name="Allergens" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+ 

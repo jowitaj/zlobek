@@ -1,0 +1,13 @@
+﻿@model zlobek.Entities.Menu
+
+<h2>Delete Menu</h2>
+<form asp-action="/Menu/Delete" asp-controller="Menu" method="post">
+<div class="form-group">
+    <label for="MenuId" class="control-label">Menu Id:</label>
+    <input type="text" name="MenuId" class="form-control" />
+    <input type="hidden" name="MenuId" value="@ViewData["MenuId"]" />
+</div>
+    <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+</form>

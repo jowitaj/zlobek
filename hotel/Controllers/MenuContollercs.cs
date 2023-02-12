@@ -1,78 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using zlobek.Entities;
 using zlobek.Services;
 
 namespace zlobek.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MenuController : ControllerBase
+    public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
+
 
         public MenuController(IMenuService menuService)
         {
             _menuService = menuService;
+
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Menu>>> GetMenus()
+        public async Task<IActionResult> MenuList()
         {
-            var menus = await _menuService.GetMenus();
-            return Ok(menus);
+            var menu = await _menuService.GetMenu();
+            return View(menu);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Menu>> GetMenu(int id)
+        [HttpGet]
+        public IActionResult Create()
         {
-            var menu = await _menuService.GetMenuById(id);
-
-            if (menu == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(menu);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Menu>> PostMenu(Menu menu)
+        public async Task<IActionResult> Create(Menu menu)
         {
-            await _menuService.CreateMenu(menu);
+            if (ModelState.IsValid)
+            {
+                await _menuService.CreateMenu(menu);
 
-            return CreatedAtAction(nameof(GetMenu), new { id = menu.MenuId }, menu);
+                return View(menu);
+            }
+            return BadRequest();
+
+
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenu(int id, Menu menu)
+        [HttpGet]
+        public IActionResult Edit()
         {
-            try
-            {
-                await _menuService.UpdateMenu(id, menu);
-            }
-            catch (ArgumentException)
-            {
-                return BadRequest();
-            }
-
-            return NoContent();
+            return View();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMenu(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Menu menu)
         {
-            var result = await _menuService.DeleteMenu(id);
 
-            if (!result)
-            {
-                return NotFound();
-            }
+            menu.MenuId = int.Parse(Request.Form["menuId"]);
 
-            return NoContent();
+            var result = await _menuService.UpdateMenu(menu.MenuId, menu);
+
+
+
+            return View(menu);
+        }
+
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Menu menu)
+        {
+
+            menu.MenuId = int.Parse(Request.Form["menuId"]);
+            var result = await _menuService.DeleteMenu(menu.MenuId);
+
+            return View();
         }
     }
 }

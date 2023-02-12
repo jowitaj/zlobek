@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using zlobek.Entities;
 
-public interface IMenuService
+namespace zlobek.Services
 {
-    Task<List<Menu>> GetMenus();
-    Task<Menu> GetMenuById(int id);
-    Task<Menu> CreateMenu(Menu menu);
-    Task<Menu> UpdateMenu(int id, Menu menu);
-    Task<bool> DeleteMenu(int id);
+    public interface IMenuService
+    {
+        Task<IEnumerable<Menu>> GetMenu();
+        Task<Menu> GetMenu(int id);
+        Task<Menu> CreateMenu(Menu menu);
+        Task<bool> UpdateMenu(int id, Menu menu);
+        Task<bool> DeleteMenu(int id);
+    }
 }
