@@ -1,77 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using zlobek.Entities;
+using zlobek.Services;
 
 namespace zlobek.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TeacherController : ControllerBase
+    public class TeacherController : Controller
     {
         private readonly ITeacherService _teacherService;
+
 
         public TeacherController(ITeacherService teacherService)
         {
             _teacherService = teacherService;
+
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers()
+        public async Task<IActionResult> TeacherList()
         {
-            var teachers = await _teacherService.GetTeachers();
-            return Ok(teachers);
+            var teacher = await _teacherService.GetTeacher();
+            return View(teacher);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Teacher>> GetTeacher(int id)
+        [HttpGet]
+        public IActionResult Create()
         {
-            var teacher = await _teacherService.GetTeacherById(id);
-
-            if (teacher == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(teacher);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Teacher>> PostTeacher(Teacher teacher)
+        public async Task<IActionResult> Create(Teacher teacher)
         {
-            var createdTeacher = await _teacherService.CreateTeacher(teacher);
+            if (ModelState.IsValid)
+            {
+                await _teacherService.CreateTeacher(teacher);
 
-            return CreatedAtAction(nameof(GetTeacher), new { id = createdTeacher.TeacherID }, createdTeacher);
+                return View(teacher);
+            }
+            return BadRequest();
+
+
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeacher(int id, Teacher teacher)
+        [HttpGet]
+        public IActionResult Edit()
         {
-            if (id != teacher.TeacherID)
-            {
-                return BadRequest();
-            }
-
-            
-                await _teacherService.UpdateTeacher(id, teacher);
-            
-           
-
-            return NoContent();
+            return View();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeacher(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Teacher teacher)
         {
-            var deleted = await _teacherService.DeleteTeacher(id);
 
-            if (!deleted)
-            {
-                return NotFound();
-            }
+            teacher.TeacherID = int.Parse(Request.Form["TeacherId"]);
 
-            return NoContent();
+            var result = await _teacherService.UpdateTeacher(teacher.TeacherID, teacher);
+
+
+
+            return View(teacher);
+        }
+
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Teacher teacher)
+        {
+
+            teacher.TeacherID = int.Parse(Request.Form["TeacherId"]);
+            var result = await _teacherService.DeleteTeacher(teacher.TeacherID);
+
+            return View();
         }
     }
 }

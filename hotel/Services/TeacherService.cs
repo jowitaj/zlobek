@@ -1,60 +1,100 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using zlobek.Entities;
 
-public class TeacherService : ITeacherService
+namespace zlobek.Services
 {
-    private readonly nurseryDbContext _context;
-
-    public TeacherService(nurseryDbContext context)
+    public class TeacherService : ITeacherService
     {
-        _context = context;
-    }
-
-    public async Task<List<Teacher>> GetTeachers()
-    {
-        return await _context.Teacher.ToListAsync();
-    }
-
-    public async Task<Teacher> GetTeacherById(int id)
-    {
-        return await _context.Teacher.FindAsync(id);
-    }
-
-    public async Task<Teacher> CreateTeacher(Teacher teacher)
-    {
-        _context.Teacher.Add(teacher);
-        await _context.SaveChangesAsync();
-        return teacher;
-    }
-
-    public async Task<Teacher> UpdateTeacher(int id, Teacher teacher)
-    {
-        if (id != teacher.TeacherID)
+        private readonly nurseryDbContext _context;
+        public TeacherService(nurseryDbContext context)
         {
-            throw new ArgumentException("Invalid teacher id");
+            _context = context;
         }
 
-        _context.Entry(teacher).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-
-        return teacher;
-    }
-
-    public async Task<bool> DeleteTeacher(int id)
-    {
-        var teacher = await _context.Teacher.FindAsync(id);
-
-        if (teacher == null)
+        public async Task<IEnumerable<Teacher>> GetTeacher()
         {
-            return false;
+            return await _context.Teacher.ToListAsync();
         }
 
-        _context.Teacher.Remove(teacher);
-        await _context.SaveChangesAsync();
+        public async Task<Teacher> GetTeacher(int id)
+        {
+            var group = await _context.Teacher.FindAsync(id);
 
-        return true;
+            if (group == null)
+            {
+                return null;
+            }
+
+            return group;
+        }
+
+        public async Task<Teacher> CreateTeacher(Teacher teacher)
+        {
+            try
+            {
+                _context.Teacher.Add(teacher);
+                await _context.SaveChangesAsync();
+
+                return teacher;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateTeacher(int id, Teacher teacher)
+        {
+            if (id != teacher.TeacherID)
+            {
+                return false;
+            }
+
+            _context.Entry(teacher).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TeacherExist(id))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteTeacher(int id)
+        {
+            var teacher = await _context.Teacher.FindAsync(id);
+            if (teacher == null)
+            {
+                return false;
+            }
+
+            _context.Teacher.Remove(teacher);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private bool TeacherExist(int id)
+        {
+            return _context.Teacher.Any(e => e.GroupId == id);
+        }
     }
 }

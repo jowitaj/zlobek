@@ -1,0 +1,35 @@
+﻿@model IEnumerable<zlobek.Entities.Teacher>
+
+<h2>Teachers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Contact Number</th>
+            <th>City</th>
+            <th>Street</th>
+            <th>House Number</th>
+            <th>Postal Code</th>
+            <th>Birth Date</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teacher in Model)
+        {
+            <tr>
+                <td>@teacher.Name</td>
+                <td>@teacher.Surname</td>
+                <td>@teacher.ContactNumber</td>
+                <td>@teacher.City</td>
+                <td>@teacher.Street</td>
+                <td>@teacher.HouseNumber</td>
+                <td>@teacher.PostalCode</td>
+                <td>@teacher.BirthDate</td>
+                <td>@teacher.GroupId</td>
+            </tr>
+        }
+    </tbody>
+</table>

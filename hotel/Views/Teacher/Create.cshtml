@@ -1,0 +1,48 @@
+﻿@model zlobek.Entities.Teacher
+
+<h2>Create Teacher</h2>
+<form asp-action="/Teacher/Create" asp-controller="Teacher" method="post">
+    <div class="form-group">
+        <label for="Name" class="control-label">Name:</label>
+        <input type="text" name="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Surname" class="control-label">Surname:</label>
+        <input type="text" name="Surname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="ContactNumber" class="control-label">Contact Number:</label>
+        <input type="text" name="ContactNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="City" class="control-label">City:</label>
+        <input type="text" name="City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Street" class="control-label">Street:</label>
+        <input type="text" name="Street" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="HouseNumber" class="control-label">House Number:</label>
+        <input type="text" name="HouseNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="PostalCode" class="control-label">Postal Code:</label>
+        <input type="text" name="PostalCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="BirthDate" class="control-label">Birth Date:</label>
+        <input type="text" name="BirthDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="OtherInformations" class="control-label">Other Information:</label>
+        <input type="text" name="OtherInformations" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="GroupId" class="control-label">Group ID:</label>
+        <input type="text" name="GroupId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

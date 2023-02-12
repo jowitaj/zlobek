@@ -18,7 +18,7 @@ namespace zlobek.Entities
         public string BirthDate { get; set; } 
         public string OtherInformations { get; set; }
 
-        public int GroupId { get; set; }
+        public int? GroupId { get; set; }
         public virtual Groups Groups { get; set; }
     }
 }

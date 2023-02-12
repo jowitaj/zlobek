@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using zlobek.Entities;
 
-public interface ITeacherService
+namespace zlobek.Services
 {
-    Task<List<Teacher>> GetTeachers();
-    Task<Teacher> GetTeacherById(int id);
-    Task<Teacher> CreateTeacher(Teacher teacher);
-    Task<Teacher> UpdateTeacher(int id, Teacher teacher);
-    Task<bool> DeleteTeacher(int id);
+    public interface ITeacherService
+    {
+        Task<IEnumerable<Teacher>> GetTeacher();
+        Task<Teacher> GetTeacher(int id);
+        Task<Teacher> CreateTeacher(Teacher teacher);
+        Task<bool> UpdateTeacher(int id, Teacher teacher);
+        Task<bool> DeleteTeacher(int id);
+    }
 }

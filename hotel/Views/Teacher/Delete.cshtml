@@ -1,0 +1,13 @@
+﻿@model zlobek.Entities.Teacher
+
+<h2>Delete Teacher</h2>
+<form asp-action="/Teacher/Delete" asp-controller="Teacher" method="post">
+<div class="form-group">
+    <label for="TeacherID" class="control-label">Teacher Id:</label>
+    <input type="text" name="TeacherID" class="form-control" />
+    <input type="hidden" name="TeacherID" value="@ViewData["TeacherId"]" />
+</div>
+    <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+</form>
