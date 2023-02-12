@@ -1,91 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using zlobek.Entities;
 using zlobek.Services;
 
 namespace zlobek.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GroupController : ControllerBase
+    public class GroupController : Controller
     {
         private readonly IGroupService _groupService;
+
 
         public GroupController(IGroupService groupService)
         {
             _groupService = groupService;
+        
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Groups>>> GetGroups()
+        public async Task<IActionResult> GroupList()
         {
-            return Ok(await _groupService.GetAllAsync());
+            var group = await _groupService.GetGroups();
+            return View(group);
         }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Groups>> GetGroup(int id)
+        [HttpGet]
+        public IActionResult Create()
         {
-            var group = await _groupService.GetByIdAsync(id);
-
-            if (group == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(group);
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Groups>> PostGroup(Groups group)
+        public async Task<IActionResult> Create(Groups group)
         {
-            if (!IsValidGroupName(group.Name))
+            if (ModelState.IsValid)
             {
-                return BadRequest("Invalid group name. Only alphanumeric characters and spaces are allowed.");
+                await _groupService.CreateGroups(group);
+
+                return View(group);
             }
+            return BadRequest();
 
-            var createdGroup = await _groupService.CreateAsync(group);
 
-            return CreatedAtAction(nameof(GetGroup), new { id = createdGroup.GroupId }, createdGroup);
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroup(int id, Groups group)
+        [HttpGet]
+        public IActionResult Edit()
         {
-            if (id != group.GroupId)
-            {
-                return BadRequest();
-            }
-
-            if (!IsValidGroupName(group.Name))
-            {
-                return BadRequest("Invalid group name. Only alphanumeric characters and spaces are allowed.");
-            }
-
-            await _groupService.UpdateAsync(group);
-
-            return NoContent();
+            return View();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroup(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Groups group)
         {
-            var group = await _groupService.GetByIdAsync(id);
 
-            if (group == null)
-            {
-                return NotFound();
-            }
+            group.GroupId = int.Parse(Request.Form["GroupId"]);
 
-            await _groupService.DeleteAsync(id);
+            var result = await _groupService.UpdateGroups(group.GroupId, group);
 
-            return NoContent();
+
+
+            return View(group);
         }
 
-        private bool IsValidGroupName(string name)
+        [HttpGet]
+        public IActionResult Delete()
         {
-            return Regex.IsMatch(name, @"^[a-zA-Z0-9\s]+$");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Groups group)
+        {
+
+            group.GroupId = int.Parse(Request.Form["GroupId"]);
+            var result = await _groupService.DeleteGroups(group.GroupId);
+
+            return View();
         }
     }
 }

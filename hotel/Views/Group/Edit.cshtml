@@ -1,0 +1,21 @@
+﻿@model zlobek.Entities.Groups
+
+<h2>Edit Groups</h2>
+<form asp-action="/Group/Edit" asp-controller="Group" method="post">
+<div class="form-group">
+    <label for="GroupId" class="control-label">Group Id:</label>
+    <input type="text" name="GroupId" class="form-control" />
+    <input type="hidden" name="GroupId" value="@ViewData["GroupId"]" />
+</div>
+    <div class="form-group">
+        <label for="Name" class="control-label">Name:</label>
+        <input type="text" name="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="NOMembers" class="control-label">Number of members:</label>
+        <input type="text" name="NOMembers" class="form-control" />
+    </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+</form>

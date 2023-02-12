@@ -1,0 +1,16 @@
+﻿@model zlobek.Entities.Groups
+
+<h2>Create Groups</h2>
+<form asp-action="/Group/Create" asp-controller="Group" method="post">
+    <div class="form-group">
+        <label for="Name" class="control-label">Name:</label>
+        <input type="text" name="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="NOMembers" class="control-label">Number of members:</label>
+        <input type="text" name="NOMembers" class="form-control" />
+    </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+</form>
