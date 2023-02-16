@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,29 +27,24 @@ namespace hotel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             services.AddDbContext<nurseryDbContext>();
-            services.AddRazorPages();
+            services.AddRazorPages(); 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+       .AddCookie(options =>
+       {
+           options.LoginPath = "/Account/Login";
+       });
+
+            services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
             services.AddScoped<IChildService, ChildService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<IGroupService, GroupService>();
-            services.AddAuthentication("MyScheme")
-     .AddMyAuth(options => {
-         // Configure options here
-     });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("admin"));
-                options.AddPolicy("RequireTeacherRole", policy => policy.RequireRole("teacher"));
-                options.AddPolicy("RequireParentRole", policy => policy.RequireRole("parent"));
-            });
-
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,10 +63,14 @@ namespace hotel
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+         
+            app.UseCookiePolicy();
+  
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using zlobek.Entities;
 using zlobek.Services;
 
@@ -16,28 +11,25 @@ namespace zlobek.Controllers
     {
         private readonly IChildService _childService;
 
-    
-        private readonly ILogger<ChildController> _logger;
-
-        public ChildController(IChildService childService, ILogger<ChildController> logger)
+        public ChildController(IChildService childService)
         {
             _childService = childService;
-            _logger = logger;
         }
-        [Authorize(Roles = "admin,teacher")]
+
         [HttpGet]
+
         public async Task<IActionResult> ChildList()
         {
             var children = await _childService.GetChildren();
             return View(children);
         }
-        [Authorize(Roles = "admin")]
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Child child)
         {
@@ -52,32 +44,33 @@ namespace zlobek.Controllers
 
 
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
+
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         public async Task<IActionResult> Edit(Child child)
         {
-           
-                child.ChildID = int.Parse(Request.Form["ChildId"]);
-            
+
+            child.ChildID = int.Parse(Request.Form["ChildId"]);
+
             var result = await _childService.UpdateChild(child.ChildID, child);
 
-            
+
 
             return View(child);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(Child child)
         {
@@ -85,7 +78,7 @@ namespace zlobek.Controllers
             child.ChildID = int.Parse(Request.Form["ChildId"]);
             var result = await _childService.DeleteChild(child.ChildID);
 
-           return View();
+            return View();
         }
     }
 }

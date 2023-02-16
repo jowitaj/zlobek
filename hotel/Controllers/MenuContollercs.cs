@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -22,20 +21,19 @@ namespace zlobek.Controllers
             _menuService = menuService;
 
         }
-        [Authorize(Roles = "admin,teacher,parent")]
         [HttpGet]
         public async Task<IActionResult> MenuList()
         {
             var menu = await _menuService.GetMenu();
             return View(menu);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         public async Task<IActionResult> Create(Menu menu)
         {
@@ -50,13 +48,13 @@ namespace zlobek.Controllers
 
 
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         public async Task<IActionResult> Edit(Menu menu)
         {
@@ -69,13 +67,13 @@ namespace zlobek.Controllers
 
             return View(menu);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         public async Task<IActionResult> Delete(Menu menu)
         {

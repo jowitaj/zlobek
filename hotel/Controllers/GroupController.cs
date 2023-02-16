@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using zlobek.Entities;
 using zlobek.Services;
 
@@ -20,22 +14,22 @@ namespace zlobek.Controllers
         public GroupController(IGroupService groupService)
         {
             _groupService = groupService;
-        
+
         }
-        [Authorize(Roles = "admin,teacher,parent")]
+
         [HttpGet]
         public async Task<IActionResult> GroupList()
         {
             var group = await _groupService.GetGroups();
             return View(group);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Groups group)
         {
@@ -50,13 +44,13 @@ namespace zlobek.Controllers
 
 
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Groups group)
         {
@@ -69,13 +63,13 @@ namespace zlobek.Controllers
 
             return View(group);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete()
         {
             return View();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(Groups group)
         {

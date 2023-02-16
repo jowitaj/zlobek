@@ -1,11 +1,27 @@
-﻿<form method="post" asp-action="Login">
+﻿@model zlobek.Entities.Account
+@if (User.Identity.IsAuthenticated)
+{
+        <p>Użytkownik jest zalogowany.</p>
+}
+else
+{
+        <p>Użytkownik nie jest zalogowany.</p>
+}
+<h2>Login</h2>
+
+<form asp-action="/Account/Login" asp-controller="Account" method="post">
+    <div asp-validation-summary="All"></div>
     <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter email">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" name="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="Password">Password</label>
-        <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" name="Password"/>
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Log in</button>
+    <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary" />
+    </div>
 </form>

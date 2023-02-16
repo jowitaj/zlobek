@@ -11,6 +11,7 @@ namespace zlobek.Entities
         public DbSet<Child> Child { get; set; }
         public DbSet<Groups> Groups { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,29 +1,36 @@
-﻿@model IEnumerable<zlobek.Entities.Account>
+﻿<h2>Teachers</h2>
 
-<h2>Account List</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Account ID</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Role ID</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var account in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>@account.AccountId</td>
-                <td>@account.Name</td>
-                <td>@account.Surname</td>
-                <td>@account.Email</td>
-                <td>@account.PhoneNumber</td>
-                <td>@account.Role</td>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Contact Number</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>House Number</th>
+                <th>Postal Code</th>
+                <th>Birth Date</th>
+                <th>Other Information</th>
+                <th>Group Name</th>
+                <th>Number of Members</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var teacher in Model)
+            {
+                <tr>
+                    <td>@teacher.Name</td>
+                    <td>@teacher.Surname</td>
+                    <td>@teacher.ContactNumber</td>
+                    <td>@teacher.City</td>
+                    <td>@teacher.Street</td>
+                    <td>@teacher.HouseNumber</td>
+                    <td>@teacher.PostalCode</td>
+                    <td>@teacher.BirthDate</td>
+                    <td>@teacher.OtherInformations</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

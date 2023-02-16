@@ -1,5 +1,91 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        /* Usunięcie podkreślenia z linków */
+        a {
+            text-decoration: none;
+        }
+
+        /* Zmiana koloru linków na czarny */
+        a {
+            color: #000000;
+        }
+
+        /* Tworzenie rozwijanego menu na górze strony */
+        .menu {
+            display: inline-block;
+            position: relative;
+        }
+
+            .menu ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+
+            .menu:hover ul {
+                display: block;
+            }
+
+            .menu li {
+                display: block;
+            }
+
+        /* Tworzenie różowej stopki na dole strony */
+        footer {
+            background-color: #FFCCDD !important;
+            height: 90px;
+        }
+        footer p {
+                color: hotpink;
+            }
+        /* Wyśrodkowanie nagłówka */
+        #header {
+            text-align: center;
+            height: 35px;
+            line-height: 35px;
+            background-color: #FFC0CB;
+            color: deeppink;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ŻŁOBEK ZACZAROWANA KRAINA</h1>
+    </div>
+    <ul>
+        <li><a href="/child/ChildList">Lista dzieci</a></li>
+        <li><a href="/child/create">Dodaj dziecko</a></li>
+        <li><a href="/child/edit">Edytuj dziecko</a></li>
+        <li><a href="/child/delete">Usuń dziecko</a></li>
+        <li><a href="/teacher/TeacherList">Lista nauczycieli</a></li>
+        <li><a href="/teacher/create">Dodaj nauczyciela</a></li>
+        <li><a href="/teacher/edit">Edytuj nauczyciela</a></li>
+        <li><a href="/teacher/delete">Usuń nauczyciela</a></li>
+        <li><a href="/account/AccountList">Lista Kont</a></li>
+        <li><a href="/account/create">Dodaj konto</a></li>
+        <li><a href="/account/edit">Edytuj konto</a></li>
+        <li><a href="/account/delete">Usuń konto</a></li>
+        <li><a href="/menu/MenuList">Lista menu</a></li>
+        <li><a href="/menu/create">Dodaj menu</a></li>
+        <li><a href="/menu/edit">Edytuj menu</a></li>
+        <li><a href="/menu/delete">Usuń menu</a></li>
+        <li><a href="/group/GroupList">Lista grup</a></li>
+        <li><a href="/group/create">Dodaj grupę</a></li>
+        <li><a href="/group/edit">Edytuj grupę</a></li>
+        <li><a href="/group/delete">Usuń grupę</a></li>
+    </ul>
+    <footer>
+        <div class="footer-content">
+            <p>© 2023 Moja firma. Wszelkie prawa zastrzeżone. </p>
+        </div>
+    </footer>
+</body>
+</html>

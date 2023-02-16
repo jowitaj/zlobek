@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,25 +10,21 @@ namespace zlobek.Services
     public class AccountService : IAccountService
     {
         private readonly nurseryDbContext _context;
+
+
         public AccountService(nurseryDbContext context)
         {
             _context = context;
         }
-        public async Task<Account> Login(string email, string password)
+        public async Task<Account> GetAccountByEmail(string email)
         {
-            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
+            var account = await _context.Accounts
+                .Where(a => a.Email == email)
+                .FirstOrDefaultAsync();
 
-            if (account == null)
-            {
-                return null;
-            }
-
-            var passwordHasher = new PasswordHasher<Account>();
-
-            var result = passwordHasher.VerifyHashedPassword(account, account.Password, password);
-
-            return result == PasswordVerificationResult.Success ? account : null;
+            return account;
         }
+
         public async Task<IEnumerable<Account>> GetAccount()
         {
             return await _context.Accounts.ToListAsync();
@@ -106,6 +99,13 @@ namespace zlobek.Services
 
             return true;
         }
+        public async Task<string> GetRoleForAccount(string email)
+        {
+            var account = await _context.Accounts
+                .Where(a => a.Email == email)
+                .Include(a => a.Role)
+                .FirstOrDefaultAsync(); return account?.Role?.Name;
+        }   
 
         private bool AccountExists(int id)
         {
