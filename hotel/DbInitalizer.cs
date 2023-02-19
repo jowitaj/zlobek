@@ -78,14 +78,15 @@ namespace zlobek
             HouseNumber = "1",
             PostalCode = "00-001",
             BirthDate = "2016-02-14",
-            Allergies = "none",
-            OtherInformations = "none",
+            Allergies = "nuts",
+            OtherInformations = "sleep max 1 hour",
+            GroupId=1,
             Groups = new Groups
             {
-                Name = "Blue group",
+                Name = "Biedronki",
                  NOMembers=15
-
             }
+               
         },
         new Child()
         {
@@ -103,9 +104,10 @@ namespace zlobek
             BirthDate = "2017-03-15",
             Allergies = "none",
             OtherInformations = "none",
+             GroupId=2,
             Groups = new Groups
             {
-                Name = "Green group",
+                Name = "Żabki",
                  NOMembers=15
             }
         },
@@ -125,9 +127,10 @@ namespace zlobek
             BirthDate = "2018-04-16",
             Allergies = "none",
             OtherInformations = "none",
+             GroupId=3,
             Groups = new Groups
             {
-                Name = "Red group",
+                Name = "Motylki",
                 NOMembers=15
             }
         }

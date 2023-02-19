@@ -78,7 +78,7 @@ namespace zlobek.Controllers
                     return View(model);
                 }
             }
-            return View(model);
+            return View("~/Views/Home/menu.cshtml");
         }
         [HttpGet]
         public async Task<IActionResult> AccountList()

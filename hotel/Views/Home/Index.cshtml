@@ -1,91 +1,38 @@
-﻿@{
-    Layout = null;
-}
+﻿
 
-<!DOCTYPE html>
 <html>
-<head>
-    <style type="text/css">
-        /* Usunięcie podkreślenia z linków */
-        a {
-            text-decoration: none;
-        }
-
-        /* Zmiana koloru linków na czarny */
-        a {
-            color: #000000;
-        }
-
-        /* Tworzenie rozwijanego menu na górze strony */
-        .menu {
-            display: inline-block;
-            position: relative;
-        }
-
-            .menu ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-            }
-
-            .menu:hover ul {
-                display: block;
-            }
-
-            .menu li {
-                display: block;
-            }
-
-        /* Tworzenie różowej stopki na dole strony */
-        footer {
-            background-color: #FFCCDD !important;
-            height: 90px;
-        }
-        footer p {
-                color: hotpink;
-            }
-        /* Wyśrodkowanie nagłówka */
-        #header {
-            text-align: center;
-            height: 35px;
-            line-height: 35px;
-            background-color: #FFC0CB;
-            color: deeppink;
-        }
-
-    </style>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Mysie-Pysie</title>
+    <link rel="stylesheet" href="~/index/bootstrap/css/bootstrap.min.css?h=56ac0ec133e27aff839b2e0be71ab12f">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="~/index/css/styles.min.css?h=98e3c48b242487f86c25e2ec9e323d2f">
 </head>
-<body>
-    <div class="header">
-        <h1>ŻŁOBEK ZACZAROWANA KRAINA</h1>
-    </div>
-    <ul>
-        <li><a href="/child/ChildList">Lista dzieci</a></li>
-        <li><a href="/child/create">Dodaj dziecko</a></li>
-        <li><a href="/child/edit">Edytuj dziecko</a></li>
-        <li><a href="/child/delete">Usuń dziecko</a></li>
-        <li><a href="/teacher/TeacherList">Lista nauczycieli</a></li>
-        <li><a href="/teacher/create">Dodaj nauczyciela</a></li>
-        <li><a href="/teacher/edit">Edytuj nauczyciela</a></li>
-        <li><a href="/teacher/delete">Usuń nauczyciela</a></li>
-        <li><a href="/account/AccountList">Lista Kont</a></li>
-        <li><a href="/account/create">Dodaj konto</a></li>
-        <li><a href="/account/edit">Edytuj konto</a></li>
-        <li><a href="/account/delete">Usuń konto</a></li>
-        <li><a href="/menu/MenuList">Lista menu</a></li>
-        <li><a href="/menu/create">Dodaj menu</a></li>
-        <li><a href="/menu/edit">Edytuj menu</a></li>
-        <li><a href="/menu/delete">Usuń menu</a></li>
-        <li><a href="/group/GroupList">Lista grup</a></li>
-        <li><a href="/group/create">Dodaj grupę</a></li>
-        <li><a href="/group/edit">Edytuj grupę</a></li>
-        <li><a href="/group/delete">Usuń grupę</a></li>
-    </ul>
-    <footer>
-        <div class="footer-content">
-            <p>© 2023 Moja firma. Wszelkie prawa zastrzeżone. </p>
-        </div>
-    </footer>
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="77" style="height: 640px;color: var(--bs-code-color);">
+    <header class="masthead" style="background-image: url('/index/img/intro-bg.jpg?h=145cae4a8124ee5dac950230c1552d3c');"><div class="intro-body" style="background: url(&quot;/index/img/photo-1613794713137-a78aba4be84a.avif?h=c63c4a185b6fd093afed614edae1222c&quot;);height: 790.188px;width: 1063px;margin-right: 0px;"><nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background: #FFF0F5;padding: 0px 0px;"><div class="container"><a class="navbar-brand" href="#" style="color: var(--bs-pink);font-size: 30px;font-family: 'Abril Fatface', serif;">NIEPUBLICZNY ŻŁOBEK MYSIE-PYSIE</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive-1" class="navbar-toggler navbar-toggler-right" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button><div class="collapse navbar-collapse" id="navbarResponsive"><ul class="navbar-nav ms-auto"><li class="nav-item nav-link"></li><li class="nav-item nav-link"><a class="nav-link" data-bss-hover-animate="pulse" a href="/Account/Login" style="background: var(--bs-pink);color: #FFF0F5;margin-right: -110px;">logowanie</a></li></ul></div><div class="collapse navbar-collapse" id="navbarResponsive-1"><ul class="navbar-nav ms-auto"><li class="nav-item nav-link"></li><li class="nav-item nav-link"></li><li class="nav-item nav-link"></li></ul></div></div></nav><a class="btn btn-link btn-circle" role="button" href="#about" style="width: 55px;margin: 651px 0px 0px;background: #FFF0F5;border-color: var(--bs-pink);color: var(--bs-pink);"><i class="fa fa-angle-double-down animated"></i></a></div></header>
+    <section class="text-center content-section" id="about" style="background: #FFF0F5;"><div class="container"><div class="row"><div class="col-lg-8 mx-auto"><h2>niepubliczny żłobek mysie-pysie</h2><p>Zapraszamy do naszego żłobka, w którym Twoje dziecko zawsze jest na pierwszym miejscu! Nasz doświadczony zespół opiekunów zapewnia bezpieczeństwo i miłość, której potrzebuje każde dziecko. Nasze przestronne sale, specjalnie zaprojektowane z myślą o maluchach, oraz bogata oferta zajęć rozwijających umysł i ciało sprawią, że Twój maluszek będzie się u nas czuł jak w domu. Wybierz nasz żłobek i daj swojemu dziecku najlepszy start w życiu!</p><p></p><p></p></div></div></div></section>
+    <section class="text-center content-section" id="contact" style="height: 526.391px;margin-top: -120px;margin-bottom: 109px;"><div class="container"><div class="row"><div class="col-lg-8 mx-auto"><h2>zajęcia dodatkowe</h2><p style="color: #FFF0F5;">Język Angielski | Język Hiszpański | Gimnastyka | Zajęcia Sensoplastyczne | Konsultacje Psychologiczne | Logopeda | Joga Dla Dzieci | Zajęcia Tematyczne | Plastyka | Muzyka | Warsztaty Teatralne</p>
+                    <ul class="list-inline banner-social-buttons">
+                        <li class="list-inline-item">&nbsp;</li>
+                        <li class="list-inline-item">
+                            &nbsp;
+                            <a href="https://www.facebook.com/profile.php?id=100063455375490">
+                                <button class="btn btn-primary btn-lg btn-default" data-bss-hover-animate="pulse" type="button" style="background: var(--bs-pink);color: #FFF0F5;border-color: #FFF0F5;">
+                                    <span class="network-name">FACEBOOK</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">&nbsp;</li>
+                    </ul>
+                </div>
+            </div>
+        </div><h2 style="margin-top: 59px;background: #FFF0F5;height: 159.3984px;padding: 43px;color: var(--bs-pink);border-width: 2px;border-color: var(--bs-pink);">tu nas znajdziesz</h2>
+    </section><!-- Start: Map Clean -->
+    <div class="map-clean"><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCOd0CxN15Foc8FDmhWxtp_x4AGyEQGg8w&amp;q=Krak%C3%B3w%2C+%C5%9Awi%C4%99tego+Filipa+17&amp;zoom=15" width="100%" height="450"></iframe></div><!-- End: Map Clean -->
+    <footer style="background: #FFF0F5;height: 89.398px;margin-top: -28px;"><div class="container text-center"><p>Copyright © Niepubliczny Żłobek Mysie-Pysie w Krakowie | Projekt wykonała Jowita Jońca 13680</p></div></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/index/js/script.min.js?h=174affd7c2df99af6ef56fbb031a4666"></script>
 </body>
 </html>

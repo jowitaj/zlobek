@@ -1,69 +1,102 @@
 ﻿@model zlobek.Entities.Child
 
-<h2>Create Child</h2>
-<form asp-action="/Child/Create" asp-controller="Child" method="post">
-    <div class="form-group">
-        <label for="Name" class="control-label">Name:</label>
-        <input type="text" name="Name" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="Surname" class="control-label">Surname:</label>
-        <input type="text" name="Surname" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="MotherName" class="control-label">MotherName:</label>
-        <input type="text" name="MotherName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="MotherSurname" class="control-label">MotherSurname:</label>
-        <input type="text" name="MotherSurname" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="FatherName" class="control-label">FatherNam:</label>
-        <input type="text" name="FatherName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="FatherSurname" class="control-label">FatherSurname:</label>
-        <input type="text" name="FatherSurname" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="ContactNumber" class="control-label">ContactNumber:</label>
-        <input type="text" name="ContactNumber" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="City" class="control-label">City:</label>
-        <input type="text" name="City" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="Street" class="control-label">Street:</label>
-        <input type="text" name="Street" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="HouseNumber" class="control-label">HouseNumber:</label>
-        <input type="text" name="HouseNumber" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="PostalCode" class="control-label">PostalCode:</label>
-        <input type="text" name="PostalCode" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="BirthDate" class="control-label">Birth Date:</label>
-        <input type="date" name="BirthDate" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="Allergies" class="control-label">Allergies:</label>
-        <input type="text" name="Allergies" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="OtherInformations" class="control-label">Other Informations:</label>
-        <input type="text" name="OtherInformations" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="GroupId" class="control-label">Group:</label>
-        <select name="GroupId" class="form-control">
-            <option value="1">Group 1</option>
-            </select>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-</form>
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CREATE CHILD</title>
+    <link rel="stylesheet" href="/tlo/bootstrap/css/bootstrap.min.css?h=56ac0ec133e27aff839b2e0be71ab12f">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/tlo/css/styles.min.css?h=ee5dd957d5de9a00bbaa5deacce8d53b">
+</head>
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="77" style="height: 640px;color: var(--bs-code-color);">
+    <header class="masthead" style="background-image: url('/tlo/img/intro-bg.jpg?h=145cae4a8124ee5dac950230c1552d3c');"><div class="intro-body" style="background: #ffffff;height: 790.188px;width: 1063px;margin-right: 0px;"><nav class="navbar navbar-light navbar-expand-md fixed-top border-primary text-center border rounded-0 border-1" id="mainNav" style="background: #FFF0F5;padding: 0px 0px;margin-left: 0px;--bs-primary: #ed2893;--bs-primary-rgb: 237,40,147;color: #FFF0F5;">
+        <div class="container"><a class="navbar-brand text-center" href="#" style="color: var(--bs-pink);font-size: 30px;font-family: 'Abril Fatface', serif;text-align: center;margin-right: 397px;padding-right: 8px;padding-left: 0px;margin-left: 314px;">NIEPUBLICZNY ŻŁOBEK MYSIE-PYSIE</a>
+            <a class="navbar-brand text-center" href="#" style="color: var(--bs-pink);font-size: 30px;font-family: 'Abril Fatface', serif;text-align: center;margin-right: 397px;padding-right: 8px;padding-left: 0px;margin-left: 346px;">NIEPUBLICZNY ŻŁOBEK MYSIE-PYSIE</a>
+            <button class="navbar-toggler navbar-toggler-right" data-bs-toggle="collapse" data-bs-target="#navbarResponsive-1" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu">
+           <i class="fa fa-bars"></i></button></div></nav>
+           <section style="color: var(--bs-pink);height: 1300px;background: linear-gradient(-175deg, #f2afc1 -90%, white), #f4bfd1;margin-top: 100px;border-right: 1px solid rgba(214,51,132,0.64);">
+                
+               <form asp-action="/Child/Create" asp-controller="Child" method="post" style="width: 500px; margin-left: 33%; margin-top: -40px;">
+                    <div class="form-group">
+                        <label for="Name" class="control-label">Name:</label>
+                        <input type="text" name="Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Surname" class="control-label">Surname:</label>
+                        <input type="text" name="Surname" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="MotherName" class="control-label">MotherName:</label>
+                        <input type="text" name="MotherName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="MotherSurname" class="control-label">MotherSurname:</label>
+                        <input type="text" name="MotherSurname" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="FatherName" class="control-label">FatherName:</label>
+                        <input type="text" name="FatherName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="FatherSurname" class="control-label">FatherSurname:</label>
+                        <input type="text" name="FatherSurname" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ContactNumber" class="control-label">ContactNumber:</label>
+                        <input type="text" name="ContactNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="City" class="control-label">City:</label>
+                        <input type="text" name="City" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Street" class="control-label">Street:</label>
+                        <input type="text" name="Street" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="HouseNumber" class="control-label">HouseNumber:</label>
+                        <input type="text" name="HouseNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="PostalCode" class="control-label">PostalCode:</label>
+                        <input type="text" name="PostalCode" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="BirthDate" class="control-label">Birth Date:</label>
+                        <input type="date" name="BirthDate" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Allergies" class="control-label">Allergies:</label>
+                        <input type="text" name="Allergies" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="OtherInformations" class="control-label">Other Informations:</label>
+                        <input type="text" name="OtherInformations" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="GroupId" class="control-label">Group:</label>
+                        <select name="GroupId" class="form-control">
+                            <option value="1">Biedronki</option>
+                            <option value="2">Żabki</option>
+                            <option value="3">Motylki</option>
+                        </select>
+                        <div class="form-group">
+                            </br>
+                            <button type="submit" class="btn btn-primary" style="background-color: #d63384; border-color: #d63384; color: white;">Submit</button>
+                        </div>
+                </form>
+
+            </section>
+           </div>
+           </header>
+   
+    
+
+    <footer class="border rounded-0 border-primary" style="background: #FFF0F5;height: 89.398px;margin-top: -28px;--bs-primary: #ed2893;--bs-primary-rgb: 237,40,147;"><div class="container text-center"><p style="margin-top: -12px;">Copyright © Niepubliczny Żłobek Mysie-Pysie w Krakowie | Projekt wykonała Jowita Jońca 13680</p></div></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/tlo/js/script.min.js?h=abade7a6b58120c54533d461e48e360b"></script>
+</body>
+</html>

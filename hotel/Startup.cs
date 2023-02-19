@@ -35,6 +35,7 @@ namespace hotel
        .AddCookie(options =>
        {
            options.LoginPath = "/Account/Login";
+           options.AccessDeniedPath = "/Account/Login";
        });
 
             services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
@@ -70,6 +71,7 @@ namespace hotel
             app.UseAuthorization();
          
             app.UseCookiePolicy();
+            app.UseStaticFiles(); 
   
 
             app.UseEndpoints(endpoints =>
