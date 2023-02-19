@@ -1,7 +1,9 @@
 -------KRÓTKI OPIS --------
+
 Aplikacja dla żłobka to projekt ASP.NET, który umożliwia zarządzanie listą dzieci, grupami, nauczycielami, menu oraz użytkownikami. Dzięki aplikacji, pracownicy żłobka mogą dodawać nowe dzieci do listy, przypisywać je do odpowiednich grup, usuwać lub modyfikować dane dzieci na podstawie ID.
 
 --------URUCHAMIANIE-------
+
 Aby móc skorzystać z projektu Zlobek, potrzebujemy środowiska z zainstalowanym .NET i Microsoft SQL Server. W projekcie zostały użyte różne biblioteki, w tym EntityFrameworkCore, MoQ, NLog, Web i Xunit.
 
 Aby skompilować i uruchomić aplikację, należy najpierw pobrać i zainstalować wymagane biblioteki przy użyciu menedżera pakietów NuGet. Następnie należy skonfigurować połączenie z bazą danych w pliku konfiguracyjnym, aby umożliwić aplikacji dostęp do bazy.
