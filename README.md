@@ -21,6 +21,7 @@ Aby uruchomić projekt, należy zainstalować menedżer pakietów NuGet i dodać
 Add-Migration Update-Database Po wykonaniu tych kroków, baza danych zostanie utworzona, a aplikacja będzie gotowa do użycia.
 
 ---------UŻYTKOWNICY I ROLE--------
+
 W projekcie aplikacji dla żłobka dostępne są trzy konta użytkowników służące do testowania funkcjonalności systemu logowania. Poniżej przedstawione są informacje o tych użytkownikach:
 
 Użytkownik (rola "User") • Email: user@example.com • Hasło: password123 • Imię: Jan • Nazwisko: Kowalski • Numer telefonu: 123456789 • Data urodzenia: 1 stycznia 1990
